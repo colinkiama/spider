@@ -1,3 +1,4 @@
 # spider
 
-A new Vala app
+Quickly generate HTML5 site structure
+
