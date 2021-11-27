@@ -1,4 +1,3 @@
 # spider
 
-Quickly generate HTML5 site structure
-
+Quickly generate a HTML5 site structure
