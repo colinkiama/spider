@@ -1,7 +1,7 @@
 public static void generate_site (GeneratorSettings settings) {
     Gee.Map<string, string> file_contents = new Gee.HashMap<string, string> ();
     try {
-        file_contents["html"] = load_resource_data ("/index.html");
+        file_contents["html"] = load_resource_data ("/templates/index.html");
         if (settings.include_css) {
 
             file_contents["css"] = load_resource_data ("/templates/index.css");
@@ -22,11 +22,8 @@ public static void generate_site (GeneratorSettings settings) {
 }
 
 static string load_resource_data (string path) throws GLib.Error {
-    // Bytes index_file_bytes = resources_lookup_data (path, GLib.ResourceLookupFlags.NONE);
-    // string file_contents = (string)index_file_bytes;
-
-    string file_contents;
-    FileUtils.get_contents (create_resource_uri (path), out file_contents);
+    Bytes index_file_bytes = resources_lookup_data (path, GLib.ResourceLookupFlags.NONE);
+    string file_contents = (string)index_file_bytes.get_data ();
     print ("%s contents:\n", path);
     print (file_contents);
     return file_contents;
@@ -70,8 +67,4 @@ static void create_asset_files (GeneratorSettings settings,
 static void create_index_file (GeneratorSettings settings,
     Gee.Map<string, string> file_contents) {
 
-}
-
-static string create_resource_uri (string path) {
-    return "resource://" + path;
 }
