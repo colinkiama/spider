@@ -13,7 +13,7 @@ public static void generate_site (GeneratorSettings settings) {
     }
 
     create_asset_files (settings, file_contents);
-    create_index_file (settings, file_contents);
+    create_html_file (settings, file_contents);
 }
 
 static string load_resource_data (string path) {
@@ -39,10 +39,12 @@ static void create_asset_files (GeneratorSettings settings,
             settings.folder_name
         );
 
-        File css_file = try_create_file (dir_name, "index.css", "");
-        // TODO: fill CSS File with it's CSS Content. Replace template strings
-        // with actual values. (You could do this using a method)
-        // Fastest way is to use Regex.replace_eval: https://valadoc.org/glib-2.0/GLib.Regex.replace_eval.html
+        File css_file = try_create_file (dir_name, "index.css");
+        try {
+            FileUtils.set_contents (css_file.get_path (), file_contents["css"]);
+        } catch (Error e) {
+            error (e.message);
+        }
     }
 
     if (file_contents.has_key ("js")) {
@@ -51,22 +53,24 @@ static void create_asset_files (GeneratorSettings settings,
             settings.folder_name
         );
 
-        File js_file = File.new_build_filename (dir_name, "index.js");
+        File js_file = try_create_file (dir_name, "index.js");
         try {
-            js_file.create (GLib.FileCreateFlags.REPLACE_DESTINATION);
+            FileUtils.set_contents (js_file.get_path (), file_contents["js"]);
         } catch (Error e) {
             error ("Error %s", e.message);
         }
-
     }
 }
 
-static void create_index_file (GeneratorSettings settings,
+static void create_html_file (GeneratorSettings settings,
     Gee.Map<string, string> file_contents) {
+    // TODO: fill html File with it's html Content. Replace template strings
+    // with actual values. (You could do this using a method)
+    // Fastest way is to use Regex.replace_eval: https://valadoc.org/glib-2.0/GLib.Regex.replace_eval.html
 
 }
 
-static File try_create_file (string dir_name, string name, string contents) {
+static File try_create_file (string dir_name, string name) {
     File dir = File.new_for_path (dir_name);
 
     try {
@@ -85,4 +89,8 @@ static File try_create_file (string dir_name, string name, string contents) {
     }
 
     return file;
+}
+
+static string replace_template_strings () {
+
 }
