@@ -7,19 +7,23 @@ public class Generator: Object {
         );
     }
 
-    public void generate_site () {
+    public void run () {
         // HashTable<string, string> template_string_table = new HashTable<string, string>(str_hash, str_equal);
         Gee.Map<string, string> file_contents = new Gee.HashMap<string, string> ();
         file_contents["html"] = load_resource_data ("/templates/index.html");
         if (settings.include_css) {
 
             file_contents["css"] = load_resource_data ("/templates/index.css");
-            file_contents["css-ref"] = load_resource_data ("/references/css-ref.html");
+            file_contents["css-ref"] = load_resource_data (
+                "/references/css-ref.html"
+            ).strip ();
         }
 
         if (settings.include_js) {
             file_contents["js"] = load_resource_data ("/templates/index.js");
-            file_contents["js-ref"] = load_resource_data ("/references/js-ref.html");
+            file_contents["js-ref"] = load_resource_data (
+                "/references/js-ref.html"
+            ).strip ();
         }
 
         template_string_table = create_template_string_table (settings, file_contents);
@@ -31,24 +35,17 @@ public class Generator: Object {
     static HashTable<string, string> create_template_string_table (
         GeneratorSettings settings, Gee.Map<string, string> file_contents) {
         var table_to_return = new HashTable<string, string> (str_hash, str_equal);
-        string css_ref_content;
-        string js_ref_content;
-        if (settings.include_css) {
-            css_ref_content = file_contents["css-ref"].strip ();
-        } else {
-            css_ref_content = "";
-        }
 
-        if (settings.include_js) {
-            js_ref_content = file_contents["js-ref"].strip ();
-        } else {
-            js_ref_content = "";
-        }
+        table_to_return.insert ("${CSS_REF}", settings.include_css ?
+            file_contents["css-ref"] :
+            ""
+        );
 
-        // table_to_return.insert ("${CSS_REF}", settings.include_css ? file_contents["css-ref"] : "");
-        // table_to_return.insert ("${JS_REF}", settings.include_js ? file_contents["js-ref"] : "");
-        table_to_return.insert ("${CSS_REF}", css_ref_content);
-        table_to_return.insert ("${JS_REF}", js_ref_content);
+        table_to_return.insert ("${JS_REF}", settings.include_js ?
+            file_contents["js-ref"]
+            : ""
+        );
+
         table_to_return.insert ("${SITE_NAME}", "My Website");
         return table_to_return;
     }
@@ -58,9 +55,6 @@ public class Generator: Object {
         try {
             Bytes index_file_bytes = resources_lookup_data (path, GLib.ResourceLookupFlags.NONE);
             file_contents = (string)index_file_bytes.get_data ();
-            print ("%s contents:\n", path);
-            print (file_contents);
-
         } catch (Error e) {
             error (e.message);
         }
@@ -101,9 +95,6 @@ public class Generator: Object {
 
     void create_html_file (GeneratorSettings settings,
         Gee.Map<string, string> file_contents) {
-        // TODO: fill html File with it's html Content. Replace template strings
-        // with actual values. (You could do this using a method)
-        // Fastest way is to use Regex.replace_eval: https://valadoc.org/glib-2.0/GLib.Regex.replace_eval.html
         string html_file_contents = replace_template_strings (file_contents["html"]);
         string dir_name = "%s/%s/".printf (
             settings.current_dir,

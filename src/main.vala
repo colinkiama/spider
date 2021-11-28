@@ -57,7 +57,7 @@ public static int main (string[] args) {
     };
 
     Generator generator = new Generator (generator_settings);
-    generator.generate_site ();
+    generator.run ();
 
     return 0;
 }
