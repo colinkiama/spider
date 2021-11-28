@@ -44,11 +44,10 @@ public static int main (string[] args) {
     }
 
     if (version) {
-        stdout.printf ("0.0.1");
+        stdout.printf ("1.0.1");
         return 0;
     }
 
-    print ("Commands length: %d\n", commands.length);
     if (commands.length == 0) {
         print (opt_context.get_help (true, null));
         return 1;
