@@ -90,7 +90,7 @@ static File try_create_file (string dir_name, string name) {
         error (e.message);
     }
 
-    File file = File.new_build_filename (dir_name, "index.css");
+    File file = File.new_build_filename (dir_name, name);
     if (!file.query_exists (null)) {
         try {
             file.create (GLib.FileCreateFlags.REPLACE_DESTINATION);
