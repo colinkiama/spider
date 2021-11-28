@@ -5,24 +5,41 @@ private static bool include_css = false;
 private static string[] commands;
 
 private const GLib.OptionEntry[] MAIN_ENTRIES = {
-    { "include-css", 'c', OptionFlags.NONE, OptionArg.NONE, ref include_css, "Include JavaScript file", null },
-    { "include-js", 'j', OptionFlags.NONE, OptionArg.NONE, ref include_js, "Include CSS File", null },
-    { "version", '\0', OptionFlags.NONE, OptionArg.NONE, ref version, "Display version number", null },
-    { OPTION_REMAINING, 0, 0, OptionArg.STRING_ARRAY, ref commands, (string)0, "FOLDER_NAME" },
+    { "include-css", 'c', OptionFlags.NONE, OptionArg.NONE, ref include_css,
+        "Include JavaScript file", null
+    },
+    { "include-js", 'j', OptionFlags.NONE, OptionArg.NONE, ref include_js,
+        "Include CSS File", null
+    },
+    { "version", '\0', OptionFlags.NONE, OptionArg.NONE, ref version,
+        "Display version number", null
+    },
+    { OPTION_REMAINING, 0, 0, OptionArg.STRING_ARRAY, ref commands, (string)0,
+        "FOLDER_NAME"
+    },
     // list terminator
     { }
 };
 
 public static int main (string[] args) {
-    // For more info, check out: https://valadoc.org/glib-2.0/GLib.OptionContext.html
-    var opt_context = new OptionContext ("- Quickly generate a HTML5 site structure");
+    // For more info, check out:
+    // https://valadoc.org/glib-2.0/GLib.OptionContext.html
+    var opt_context = new OptionContext (
+        "- Quickly generate a HTML5 site structure"
+    );
+
     try {
         opt_context.set_help_enabled (true);
         opt_context.add_main_entries (MAIN_ENTRIES, null);
         opt_context.parse (ref args);
     } catch (OptionError e) {
         stderr.printf ("error: %s\n", e.message);
-        stderr.printf ("Run '%s --help' to see a full list of available command line options.\n", args[0]);
+        stderr.printf (
+            "Run '%s --help' to see a full list of available" +
+            "command line options.\n",
+            args[0]
+        );
+
         return 1;
     }
 
@@ -33,7 +50,6 @@ public static int main (string[] args) {
 
     print ("Commands length: %d\n", commands.length);
     if (commands.length == 0) {
-        // print ("Default action is performed here!\n");
         print (opt_context.get_help (true, null));
         return 1;
     }
