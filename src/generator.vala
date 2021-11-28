@@ -67,7 +67,18 @@ static void create_html_file (GeneratorSettings settings,
     // TODO: fill html File with it's html Content. Replace template strings
     // with actual values. (You could do this using a method)
     // Fastest way is to use Regex.replace_eval: https://valadoc.org/glib-2.0/GLib.Regex.replace_eval.html
+    string html_file_contents = replace_template_strings(file_contents["html"]);
+    string dir_name = "%s/%s/".printf (
+        settings.current_dir,
+        settings.folder_name
+    );
 
+    File html_file = try_create_file (dir_name, "index.html");
+    try {
+        FileUtils.set_contents (html_file.get_path (), html_file_contents);
+    } catch (Error e) {
+        error ("Error %s", e.message);
+    }
 }
 
 static File try_create_file (string dir_name, string name) {
@@ -91,6 +102,6 @@ static File try_create_file (string dir_name, string name) {
     return file;
 }
 
-static string replace_template_strings () {
-
+static string replace_template_strings (string original_string) {
+    return "";
 }
