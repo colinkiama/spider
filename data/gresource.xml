@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
+  <gresource>
+    <file>index.html</file>
+  </gresource>
   <gresource prefix="/templates">
-    <file alias="html">index.html</file>
-    <file alias="css">index.js</file>
-    <file alias="js">index.css</file>
+    <file>index.html</file>
+    <file>index.js</file>
+    <file>index.css</file>
   </gresource>
   <gresource prefix="/references">
-    <file prefix="css">css-ref.html</file>
-    <file prefix="js">js-ref.html</file>
+    <file>css-ref.html</file>
+    <file>js-ref.html</file>
   </gresource>
 </gresources>

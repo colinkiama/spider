@@ -1,5 +1,7 @@
 sources = [
-  'main.vala'
+  'main.vala',
+  'generator.vala',
+  'GeneratorSettings.vala'
 ]
 
 executable('spider',
