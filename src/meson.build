@@ -1,8 +1,13 @@
 sources = [
-  'main.vala'
+  'main.vala',
+  'generator.vala',
+  'GeneratorSettings.vala'
 ]
 
-executable('spider',
+executable(
+  'spider',
+  gresource,
   sources,
   dependencies: dependencies,
-  install: true)
+  install: true
+)
