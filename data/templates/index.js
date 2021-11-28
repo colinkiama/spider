@@ -1,3 +1,3 @@
 {
-    console.log("index.js is present!");
+  console.log("index.js is present!");
 }

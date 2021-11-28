@@ -56,7 +56,8 @@ public static int main (string[] args) {
         current_dir = Environment.get_current_dir ()
     };
 
-    generate_site (generator_settings);
+    Generator generator = new Generator (generator_settings);
+    generator.generate_site ();
 
     return 0;
 }
